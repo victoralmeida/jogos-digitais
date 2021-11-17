@@ -202,8 +202,8 @@ while True:
         ganho = 10 + (10 * m)
         pontos = pontos + ganho
         m += 1
-        #pygame.mixer.music.load('catch.mp3')
-        #pygame.mixer.music.play(0)
+        pygame.mixer.music.load('catch.mp3')
+        pygame.mixer.music.play(0)
 
     if mx >= 2000:
         delay = 0
