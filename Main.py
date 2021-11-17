@@ -56,7 +56,7 @@ bx2 = 801
 x = 0
 y = 325
 xi1 = 710
-xi2 = 710
+xi2 = 900
 yi1 = 100
 yi2 = y
 xb1 = 700
@@ -66,9 +66,11 @@ yb2 = yi2
 subir = 0
 z = 0
 a = 4
-colisãox = 0
-colisãoy = 0
+mx2 = mx + 20
+my2 = my + 20
 pontos = 0
+double_jump = 0
+fase = 1
 jump = False
 queda = False
 line_rect = Rect(xr,yr, 200, 10)
@@ -78,6 +80,11 @@ line_rect4 = Rect(x,y, 40, 60)
 line_rect5 = Rect(mx,my, 30, 30)
 line_rect6 = Rect(xb1 + 13,yb1 + 25, 40, 30)
 line_rect7 = Rect(xb2 + 13,yb2 + 25, 40, 30)
+line_rect8 = Rect(mx2,my2, 200, 10)
+
+CLOCKTICK = pygame.USEREVENT+1
+pygame.time.set_timer(CLOCKTICK, 1000) 
+temporizador = 120
 
 
 while True:
@@ -87,10 +94,18 @@ while True:
             pygame.quit()
             exit()
 
+        if event.type == CLOCKTICK and temporizador > 0:
+            temporizador = temporizador -1
+
         if event.type == KEYDOWN and subir == 0:
-            if event.key==K_SPACE:
+
+
+                
+            if event.key==K_SPACE and double_jump < 2:
+                vel_y = 20
                 jump = True
-                personagem = pulando 
+                personagem = pulando
+                double_jump += 1            
 
 
 
@@ -105,9 +120,11 @@ while True:
 
     if jump is False:
         vel_y = 20
+        
+        
 
     if queda is True and jump is False:
-        y += 10
+        y += 15
 
     if jump is False and queda is False:
         personagem = correndo
@@ -124,11 +141,13 @@ while True:
     bottom3 = line_rect3.bottom - line_rect4.top 
 
 
-    if line_rect4.colliderect(line_rect) and z == 0:
+    if line_rect4.colliderect(line_rect) and z < 5:
         queda = False
-        z = 1
-        if bottom1 <= 10:
+        z += 1
+        if bottom1 <= 30:
+            y = yr - 30
             vel_y = 0
+            double_jump = 0
             
 
         else:
@@ -138,17 +157,23 @@ while True:
     if line_rect4.colliderect(line_rect2) and z == 0:
         queda = False
         z = 1
-        if bottom2 <= 10:
+        if bottom2 <= 30:
+            y = yr2 - 30
             vel_y = 0
+            double_jump = 0
 
         else:
             jump = False
+            
 
     if line_rect4.colliderect(line_rect3) and z == 0:
         queda = False
         z = 1
-        if bottom3 <= 10:
+        if bottom3 <= 30:
+            y = yr3 - 30
             vel_y = 0
+            double_jump = 0
+            
 
         else:
             jump = False
@@ -166,6 +191,22 @@ while True:
         y = 325
         jump = False
         queda = False
+        double_jump = 0
+
+
+    if line_rect4.colliderect(line_rect8):
+        mx = 2500
+        my = random.randint(0, 300)
+        mx2 = 2500
+        my2 = my
+        ganho = 10 + (10 * m)
+        pontos = pontos + ganho
+        m += 1
+        #pygame.mixer.music.load('catch.mp3')
+        #pygame.mixer.music.play(0)
+
+    if mx >= 2000:
+        delay = 0
 
     
 
@@ -213,16 +254,124 @@ while True:
         my = random.randint(0, 300)
         m += 1
 
+    if m == 0:
+        mx2 = mx + 23
+
+    if m == 1:
+        mx2 = mx + 85
+
+    if m == 2:
+        mx2 = mx + 145
+
     if m == 3:
         m = 0
+        mx2 = mx + 20
 
-    #placar
+    #placar e tempo
 
     score1 = font.render('Placar '+str(pontos), True, (amarelo))
 
+    timer1 = font.render('Tempo ' + str(temporizador), True, (amarelo))
+
+
+    # Estados de fase
+
+    if temporizador == 90:
+        fase = 2
+
+    if temporizador == 60:
+        fase = 3
+
+    if temporizador == 0:
+        fase = 5
+
+
+    # Detalhes de fase
+
+    if fase == 1:
+        yi1 += a
+        yi2 = -200
+        yb2 = -200
+
+    if fase == 2:
+        if xi1 == 900 and xi2 == 710:
+            yi1 += -200
+            yi2 = y - 30
+            yi1 = -200
+
+        else:
+            xi1 += 5
+            xi2 -= 5
+            yi2 = y - 30
+            yb1 = -200
+            yb2 = -200
+
+    if fase == 3:
+        if xi1 == 710 and xi2 == 710 and yi2 == 300:
+            fase = 4
+
+        else:
+            yi1 = 100
+            yb1 = -200
+            yb2 = -200
+
+            if xi1 > 710:
+                xi1 -= 5
+
+            if yi2 > 300:
+                yi2 -= 1
+
+            if yi2 < 300:
+                yi2 += 1
+                
+
+    if fase == 4:
+        yi1 += a
+        yi2 = y - 30
         
 
-    #Blits das imagens e valores de velocidade
+    if fase == 5:
+        yi1 = 50
+        yi2 = 200
+        fase = 6
+        yb1 = -200
+        yb2 = -200
+        yr = - 300
+        yr2 = -300
+        yr3 = -300
+        my = -500
+
+
+    if fase == 6:
+        xi1 -= 8
+        xi2 -= 8
+        yb1 = -200
+        yb2 = -200
+        yr = - 300
+        yr2 = -300
+        yr3 = -300
+        my = -500
+
+
+        if xi1 <= -200 and xi2 <= -200:
+            fase = 7
+
+    if fase == 7:
+        x += 5
+        yb1 = -200
+        yb2 = -200
+        yr = - 300
+        yr2 = -300
+        yr3 = -300
+        my = -500
+
+        if x > 900:
+            break
+        
+
+        
+
+    # Valores dos retangulos
         
     line_rect = Rect(xr,yr, 200, 10)
     line_rect2 = Rect(xr2,yr2, 200, 10)
@@ -231,21 +380,23 @@ while True:
     line_rect5 = Rect(mx,my, 30, 30)
     line_rect6 = Rect(xb1 + 13,yb1 + 25, 40, 30)
     line_rect7 = Rect(xb2 + 13,yb2 + 25, 40, 30)
+    line_rect8 = Rect(mx2,my2, 45, 45)
 
 
 
 
+    # Valores de velocidade
     
     xr -= 5
     xr2 -= 5
     xr3 -= 5
     bx -= 5
     bx2 -= 5
-    yi1 += a
-    yi2 = y - 30
     xb1 -= 5
     xb2 -= 5
     mx -= 5
+    mx2 -= 5
+    my2 = my + 25
     moeda = moedas[m]
 
     clock.tick(60)
@@ -253,6 +404,7 @@ while True:
     pygame.draw.rect(screen, preto, line_rect4, 5)
     pygame.draw.rect(screen, preto, line_rect6, 3)
     pygame.draw.rect(screen, preto, line_rect7, 3)
+    pygame.draw.rect(screen, preto, line_rect8, 5)
     screen.blit(background, (bx,0))
     screen.blit(background2, (bx2,0))
     screen.blit(personagem, (x,y))
@@ -267,8 +419,11 @@ while True:
     pygame.draw.rect(screen, branco, line_rect)
     pygame.draw.rect(screen, branco, line_rect2)
     pygame.draw.rect(screen, branco, line_rect3)
+    
+
 
 
     screen.blit(score1, (0,0))
+    screen.blit(timer1, (200,0))
    
     pygame.display.update()
