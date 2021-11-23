@@ -551,12 +551,23 @@ while menu is True:
         pygame.draw.rect(screen, preto, line_rect3_3)
         screen.blit(background, (bx,0))
         screen.blit(background2, (bx2,0))
-        screen.blit(correndo[estadoCorrida], (x,y))
 
-        if estadoCorrida < (len(correndo)-1):
-            estadoCorrida = estadoCorrida+1
+        
+
+        
+       
+        if jump: 
+            personagem = pulando
         else:
-            estadoCorrida = 0
+            
+            if estadoCorrida < (len(correndo)-1):
+                estadoCorrida = estadoCorrida+1
+            else:
+                estadoCorrida = 0
+
+            personagem = correndo[estadoCorrida]
+
+        screen.blit(personagem, (x,y))
 
         screen.blit(bala1, (xb1,yb1))
         screen.blit(bala2, (xb2,yb2))
