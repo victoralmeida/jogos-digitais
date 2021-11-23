@@ -82,8 +82,6 @@ moedas = [bronze, prata, ouro]
 moeda = moedas[m]
 correndo = [correr1, correr1, correr2, correr2, correr3, correr3, correr4, correr4, correr5, correr5, correr6, correr6, correr7, correr7, correr8, correr8]
 
-
-
 personagem = correndo[0]
 
 font = pygame.font.SysFont('sans',30)
@@ -185,7 +183,16 @@ while menu is True:
                 
     screen.blit(background, (0,0))
     screen.blit(Nome, (20,20))
-    screen.blit(personagem, (100,425))
+
+        
+    if estadoCorrida < (len(correndo)-1):
+        estadoCorrida = estadoCorrida+1
+    else:
+        estadoCorrida = 0
+
+    personagem = correndo[estadoCorrida]
+
+    screen.blit(personagem, (x,y))
     screen.blit(inimigo1, (650,menu_y))
     screen.blit(inimigo2, (850,menu_y))
     pygame.draw.rect(screen,preto,button1)
@@ -554,9 +561,6 @@ while menu is True:
         screen.blit(background2, (bx2,0))
 
         
-
-        
-       
         if jump: 
             personagem = pulando
         else:
@@ -569,6 +573,7 @@ while menu is True:
             personagem = correndo[estadoCorrida]
 
         screen.blit(personagem, (x,y))
+        
 
         screen.blit(bala1, (xb1,yb1))
         screen.blit(bala2, (xb2,yb2))
