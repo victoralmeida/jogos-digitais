@@ -88,6 +88,7 @@ personagem = correndo[0]
 
 font = pygame.font.SysFont('sans',30)
 
+estadoCorrida = 0
 menu_y = 50
 menu_val = 1
 vel_y = 20
@@ -199,7 +200,7 @@ while menu is True:
         
     pygame.display.update()
 
-    estadoCorrida = 0
+    
     while game is True:
 
         for event in pygame.event.get():        
