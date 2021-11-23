@@ -325,7 +325,7 @@ while menu is True:
             ganho = 10 + (10 * m)
             pontos = pontos + ganho
             m += 1
-            pygame.mixer.music.load('catch.mp3')
+            pygame.mixer.music.load('som/catch.mp3')
             pygame.mixer.music.play(0)
 
         if line_rect8.colliderect(line_rect) or line_rect8.colliderect(line_rect2) or line_rect8.colliderect(line_rect3) or line_rect8.colliderect(line_rect_2) or line_rect8.colliderect(line_rect2_2) or line_rect8.colliderect(line_rect3_2):
@@ -586,7 +586,7 @@ while menu is True:
     while final is True:
         tutorial = False
         
-        pygame.mixer.music.load('Game_Over.mp3')
+        pygame.mixer.music.load('som/Game_Over.mp3')
         pygame.mixer.music.play(0)
         mouse_x, mouse_y = pygame.mouse.get_pos()
         textf = font.render('Menu',True, preto)
