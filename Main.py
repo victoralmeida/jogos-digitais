@@ -209,6 +209,7 @@ while menu is True:
 
     
     while game is True:
+        temporizador == 120
 
         for event in pygame.event.get():        
             if event.type == QUIT:
@@ -308,8 +309,9 @@ while menu is True:
         
 
         if line_rect4.colliderect(line_rect6) or line_rect4.colliderect(line_rect7):
-            game = False
-            final = True
+            if temporizador < 119:
+                game = False
+                final = True
         
 
         if not line_rect4.colliderect(line_rect) and not line_rect4.colliderect(line_rect2)and not line_rect4.colliderect(line_rect3) and not line_rect4.colliderect(line_rect_2) and not line_rect4.colliderect(line_rect2_2)and not line_rect4.colliderect(line_rect3_2):
@@ -348,8 +350,9 @@ while menu is True:
             yb2 = -1000
 
         if line_rect4.colliderect(line_rect_3) or line_rect4.colliderect(line_rect2_3)or line_rect4.colliderect(line_rect3_3) and not line_rect4.colliderect(line_rect2) and not line_rect4.colliderect(line_rect) and not line_rect4.colliderect(line_rect3):
-            game = False
-            final = True
+            if temporizador < 119:
+                game = False
+                final = True
 
 
 
@@ -506,7 +509,7 @@ while menu is True:
             yr3 = -300
             my = -500
 
-            if x > 1050:
+            if x > 1050 and temporizador < 118:
                 game = False
                 final = True
         
@@ -600,6 +603,37 @@ while menu is True:
         pygame.display.update()
 
 
+
+    temporizador = 120
+    bx = 0
+    bx2 = 998
+    x = 0
+    y = 425
+    xi1 = 910
+    xi2 = 1100
+    yi1 = 100
+    yi2 = y
+    xb1 = 900
+    xb2 = 900
+    yb1 = yi1
+    yb2 = yi2
+    subir = 0
+    z = 0
+    a = 4
+    mx2 = mx + 20
+    my2 = my + 20
+    pontos = 0
+    double_jump = 0
+    fase = 1
+    xr = 1200
+    yr = random.randint(200, 400)
+    xr2 = 1600
+    yr2 = random.randint(200, 400)
+    xr3 = 2000
+    yr3 = random.randint(200, 400)
+    m = 0
+    mx = 2000
+    my = random.randint(0, 300)
     while final is True:
         tutorial = False
         
